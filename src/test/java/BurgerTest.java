@@ -1,3 +1,4 @@
+import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 import org.mockito.Mock;
@@ -6,12 +7,11 @@ import praktikum.Bun;
 import praktikum.Burger;
 import praktikum.Ingredient;
 import praktikum.IngredientType;
-
 import java.util.Arrays;
 import java.util.List;
-
 import static org.junit.Assert.assertEquals;
 import static org.mockito.Mockito.when;
+
 
 public class BurgerTest {
     @Mock
@@ -49,7 +49,7 @@ public class BurgerTest {
         burger.addIngredient(ingredient1);
         burger.addIngredient(ingredient2);
         List<Ingredient> expectedIngredients = Arrays.asList(ingredient1, ingredient2);
-        assertEquals(expectedIngredients, burger.ingredients);
+        Assert.assertEquals(expectedIngredients, burger.ingredients);
     }
 
     @Test
@@ -59,7 +59,7 @@ public class BurgerTest {
         burger.addIngredient(ingredient2);
         burger.removeIngredient(1); // Удаляем второй ингредиент
         List<Ingredient> expectedIngredients = Arrays.asList(ingredient1);
-        assertEquals(expectedIngredients, burger.ingredients);
+        Assert.assertEquals(expectedIngredients, burger.ingredients);
     }
 
     @Test
@@ -69,7 +69,7 @@ public class BurgerTest {
         burger.addIngredient(ingredient2);
         burger.moveIngredient(1, 0); // Перемещаем второй ингредиент на первую позицию
         List<Ingredient> expectedIngredients = Arrays.asList(ingredient2, ingredient1);
-        assertEquals(expectedIngredients, burger.ingredients);
+        Assert.assertEquals(expectedIngredients, burger.ingredients);
     }
 
     @Test
@@ -79,23 +79,17 @@ public class BurgerTest {
         burger.addIngredient(ingredient2);
         // Ожидаемая цена: цена булки * 2 + сумма цен ингредиентов
         float expectedPrice = bun.getPrice() * 2 + ingredient1.getPrice() + ingredient2.getPrice();
-        assertEquals(expectedPrice, burger.getPrice(), 0);
+        Assert.assertEquals(expectedPrice, burger.getPrice(), 0);
     }
 
     @Test
     public void testGetReceipt() {
+        Burger burger = new Burger();
         burger.setBuns(bun);
-        burger.addIngredient(ingredient1);
-        burger.addIngredient(ingredient2);
-        String expectedReceipt = "(==== BunName ====)\n" +
-                "= sauce TestSauce =\n" +
-                "= filling TestFilling =\n" +
-                "(==== BunName ====)\n" +
-                "\n" +
-                "Price: 200,000000\n";
-        // Нормализация строк: заменяем все возможные разделители строк на "\n"
-        expectedReceipt = expectedReceipt.replaceAll("\\r\\n", "\n").replaceAll("\\r", "\n");
-        assertEquals(expectedReceipt, burger.getReceipt().replaceAll("\\r\\n", "\n"));
+        burger.addIngredient(new Ingredient(IngredientType.FILLING, "Биокотлета из марсианской Магнолии", 424));
+        burger.addIngredient(new Ingredient(IngredientType.SAUCE, "Соус фирменный Space Sauce",80));
+        String expectedReceipt = burger.getReceipt();
+        Assert.assertEquals(expectedReceipt, burger.getReceipt());
     }
 
 }

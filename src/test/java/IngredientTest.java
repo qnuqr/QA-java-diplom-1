@@ -1,3 +1,4 @@
+import org.junit.Assert;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.junit.runners.Parameterized;
@@ -5,7 +6,6 @@ import praktikum.Ingredient;
 import praktikum.IngredientType;
 import java.util.Arrays;
 import java.util.Collection;
-import static org.junit.Assert.assertEquals;
 
 
 @RunWith(Parameterized.class)
@@ -26,25 +26,31 @@ public class IngredientTest {
     @Parameterized.Parameters
     public static Collection<Object[]> data() {
         return Arrays.asList(new Object[][]{
-                {IngredientType.SAUCE, "TestSauce", 50.0f},
-                {IngredientType.FILLING, "TestFilling", 100.0f}
+                {IngredientType.SAUCE, "Филе Люминесцентного тетраодонтимформа", 988},
+                {IngredientType.FILLING, "Соус традиционный галактический", 15},
+                {IngredientType.SAUCE, "", 1.0f},
+                {IngredientType.FILLING, "111", 5.0f},
+                {null, null, 6.0f},
+                {null, "", 7.0f},
+                {IngredientType.FILLING, "#$%!", 9.0f},
+                {IngredientType.SAUCE, "Cheap bun", Float.MIN_VALUE},
+                {IngredientType.FILLING, "Expensive bun", Float.MAX_VALUE}
         });
     }
 
-
     @Test
     public void testGetName() {
-        assertEquals(name, ingredient.getName());
+        Assert.assertEquals(name, ingredient.getName());
     }
 
     @Test
     public void testGetType() {
-        assertEquals(type, ingredient.getType());
+        Assert.assertEquals(type, ingredient.getType());
     }
 
     @Test
     public void testGetPrice() {
-        assertEquals(price, ingredient.getPrice(), 0);
+        Assert.assertEquals(price, ingredient.getPrice(),0);
     }
 
 }
